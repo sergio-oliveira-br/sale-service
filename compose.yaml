@@ -1,13 +1,47 @@
 services:
+  # Serviço do PostgreSQL
   postgres:
     image: 'postgres:latest'
+    container_name: sale-service-postgres
     environment:
-      - 'POSTGRES_DB=mydatabase'
-      - 'POSTGRES_PASSWORD=secret'
-      - 'POSTGRES_USER=myuser'
+      POSTGRES_DB: sale_db
+      POSTGRES_PASSWORD: Brasil2024
+      POSTGRES_USER: root
     ports:
       - '5432'
-  zipkin:
-    image: 'openzipkin/zipkin:latest'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Persistência de dados
+
+  # Serviço do microserviço Inventory (Spring Boot)
+  sale-service:
+    build:
+      context: .
+    container_name: sale-service-app
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/sale_db
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=Brasil2024
+
+      # To configure DATADOG environment variables in Docker
+      - MANAGEMENT_DATADOG_METRICS_EXPORT_APIKEY=de50c7eb-900b-47cd-8dab-58212e6aa0eb # Alternativa direta
+
     ports:
-      - '9411'
+      - 8080
+    depends_on:
+      - postgres  # Garante que o PostgreSQL seja iniciado antes do seu serviço
+    networks:
+      - app-network
+
+# Definir volumes
+volumes:
+  postgres_data: {}  # Definição do volume para persistência de dados do PostgreSQL
+
+# Definir redes
+networks:
+  app-network:
+    driver: bridge
+
+#zipkin:
+#  image: 'openzipkin/zipkin:latest'
+#  ports:
+#    - 9411
