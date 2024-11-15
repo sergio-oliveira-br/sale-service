@@ -9,6 +9,8 @@ import reactor.core.publisher.Mono;
 @Service
 public class InventoryClient {
 
+
+
     private final WebClient webClient;
 
     @Autowired
@@ -31,6 +33,25 @@ public class InventoryClient {
                 .build(productId))
             .retrieve()
             .bodyToMono(boolean.class)
-            .doOnNext(stock -> System.out.println("Resposta do InventoryService - Estoque suficiente: " + stock));
+            .doOnNext(stock -> System.out.println("Resposta do InventoryService - Estoque suficiente: " + stock)
+        );
+    }
+
+    // This will reduce the stock on inventory serice
+    public Mono<Void> reduceStock(Long productId, int requestedQuantity) {
+
+        return Mono.defer(() -> {
+            LogUtil.logServiceRequest("Inicializando o processo de redução do produto '" +
+                    productId + "' quantidade '" + requestedQuantity + "'");
+
+        return webClient.put()
+            .uri(uriBuilder -> uriBuilder
+                .path("/decrease-stock/product-id/{productId}")
+                .queryParam("requestedQuantity", requestedQuantity)
+                .build(productId))
+            .retrieve()
+            .bodyToMono(void.class)
+                .onErrorResume(throwable -> Mono.empty());
+        });
     }
 }
