@@ -23,7 +23,7 @@ public class CreateSalesController {
         this.inventoryClient = inventoryClient;
     }
 
-    @PostMapping("/verify-availability-product-id/{productId}")
+    @PostMapping("/product/{productId}")
     public Mono<ResponseEntity<String>> createSale(@PathVariable("productId") Long productId,
                                                    @RequestParam("requestedQuantity") int requestedQuantity) {
         
