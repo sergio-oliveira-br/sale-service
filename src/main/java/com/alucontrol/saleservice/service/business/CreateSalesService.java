@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CreateSaleService {
+public class CreateSalesService {
 
     private final SaleRepository SaleRepository;
 
     @Autowired
-    public CreateSaleService(SaleRepository saleRepository) {
+    public CreateSalesService(SaleRepository saleRepository) {
         this.SaleRepository = saleRepository;
     }
 
