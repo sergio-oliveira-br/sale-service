@@ -22,6 +22,8 @@ public class InventoryClient {
     //This will ensure that the quantity requested is in stock
     public Mono<Boolean> hasStock(Long productId, int requestedQuantity) {
 
+        LogUtil.logServiceRequest("Verificando o estoque do produto:" + productId + " quantidade:" + requestedQuantity);
+
         return webClient.get()
             .uri(uriBuilder -> uriBuilder
                 .path("/check-inventory/product-id/{productId}")
