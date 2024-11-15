@@ -1,10 +1,11 @@
 package com.alucontrol.saleservice.controller;
 
+import com.alucontrol.saleservice.entity.Sale;
 import com.alucontrol.saleservice.service.business.CreateSaleService;
 import com.alucontrol.saleservice.service.client.InventoryClient;
 import com.alucontrol.saleservice.tracking.LogUtil;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
@@ -31,7 +32,15 @@ public class CreateSalesController {
         LogUtil.info("Iniciando o processo de venda");
 
         return inventoryClient.hasStock(productId, requestedQuantity)
-                .then(Mono.just(ResponseEntity.ok("Venda processada com sucesso")))
-                .onErrorResume(e -> Mono.just(ResponseEntity.badRequest().body(e.getMessage())));
+            .flatMap(hasStock -> {
+                if (hasStock) {
+                    createSaleService.saveSale(sale);
+                    return Mono.just(ResponseEntity.status(HttpStatus.CREATED).body("Venda criada com sucesso."));
+                }
+                else {
+                    return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não foi possivel criar a venda. Estoque insuficiente."));
+                }
+            }
+        );
     }
 }
