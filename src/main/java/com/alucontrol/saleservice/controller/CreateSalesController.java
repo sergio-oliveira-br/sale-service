@@ -1,7 +1,7 @@
 package com.alucontrol.saleservice.controller;
 
 import com.alucontrol.saleservice.entity.Sale;
-import com.alucontrol.saleservice.service.business.CreateSaleService;
+import com.alucontrol.saleservice.service.business.CreateSalesService;
 import com.alucontrol.saleservice.service.client.InventoryClient;
 import com.alucontrol.saleservice.tracking.LogUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +15,12 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/api/v1/sales")
 public class CreateSalesController {
 
-    private final CreateSaleService createSaleService;
+    private final CreateSalesService createSalesService;
     private final InventoryClient inventoryClient;
 
     @Autowired
-    public CreateSalesController(CreateSaleService createSaleService, InventoryClient inventoryClient) {
-        this.createSaleService = createSaleService;
+    public CreateSalesController(CreateSalesService createSalesService, InventoryClient inventoryClient) {
+        this.createSalesService = createSalesService;
         this.inventoryClient = inventoryClient;
     }
 
@@ -34,7 +34,7 @@ public class CreateSalesController {
         return inventoryClient.hasStock(productId, requestedQuantity)
             .flatMap(hasStock -> {
                 if (hasStock) {
-                    createSaleService.saveSale(sale);
+                    createSalesService.saveSale(sale);
                     return Mono.just(ResponseEntity.status(HttpStatus.CREATED).body("Venda criada com sucesso."));
                 }
                 else {
