@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.util.UUID;
 import java.util.concurrent.TimeoutException;
@@ -85,27 +84,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(problemDetails);
     }
 
-    // Handles communication exceptions between microservices via WebClient
-    @ExceptionHandler(WebClientResponseException.class)
-    public ResponseEntity<ProblemDetails> handleWebClientResponseException (WebClientResponseException ex){
-
-        HttpStatus status = HttpStatus.valueOf(ex.getStatusCode().value());
-        String details = "Erro ao comunicar com o microserviço de destino";
-
-        // If the status is 404 or other type, change the answer accordingly
-        if (status == HttpStatus.NOT_FOUND){
-            details = "Recurso não encontrado no microserviço de destino";
-        }
-
-        ProblemDetails problemDetails = new ProblemDetails(
-                status.toString(),
-                "Erro de Comunicação",
-                details,
-                ex.getMessage(),
-                UUID.randomUUID()
-        );
-        return ResponseEntity.status(status).body(problemDetails);
-    }
 
     //Deals with timeout of communication between microservices
     @ExceptionHandler(TimeoutException.class)
