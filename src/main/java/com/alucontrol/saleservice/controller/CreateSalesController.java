@@ -25,8 +25,11 @@ public class CreateSalesController {
 
     @PostMapping("/product/{productId}")
     public Mono<ResponseEntity<String>> createSale(@PathVariable("productId") Long productId,
-                                                   @RequestParam("requestedQuantity") int requestedQuantity) {
-        
+                                                   @RequestParam("requestedQuantity") int requestedQuantity,
+                                                   @RequestBody Sale sale) {
+
+        LogUtil.info("Iniciando o processo de venda");
+
         return inventoryClient.hasStock(productId, requestedQuantity)
                 .then(Mono.just(ResponseEntity.ok("Venda processada com sucesso")))
                 .onErrorResume(e -> Mono.just(ResponseEntity.badRequest().body(e.getMessage())));
