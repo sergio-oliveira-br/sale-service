@@ -1,5 +1,6 @@
 package com.alucontrol.saleservice.service.client;
 
+import com.alucontrol.saleservice.tracking.LogUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -14,7 +15,7 @@ public class InventoryClient {
     public InventoryClient(WebClient.Builder webClientBuilder) {
 
         this.webClient = webClientBuilder
-            .baseUrl("http://localhost:8081/api/v1/products")  // URL do inventory-service
+            .baseUrl("http://localhost:8080/api/v1/products")  // URL do inventory-service
             .build();
     }
 
