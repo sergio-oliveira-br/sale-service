@@ -1,20 +1,25 @@
 package com.alucontrol.saleservice.service.business;
 
+import com.alucontrol.saleservice.repository.SaleRepository;
+import com.alucontrol.saleservice.entity.Sale;
+import com.alucontrol.saleservice.tracking.LogUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 @Service
 public class CreateSaleService {
 
-    private final WebClient webClient;
+    private final SaleRepository SaleRepository;
 
     @Autowired
-    public CreateSaleService(WebClient.Builder webClientBuilder) {
+    public CreateSaleService(SaleRepository saleRepository) {
+        this.SaleRepository = saleRepository;
+    }
 
-        this.webClient = webClientBuilder
-            .baseUrl("http://localhost:8081/api/v1/products")  // URL do inventory-service
-            .build();
+
+    public Sale saveSale(Sale sale){
+
+        LogUtil.logDatabaseOperation("Venda salva com sucesso: " + sale);
+        return SaleRepository.save(sale);
     }
 }
