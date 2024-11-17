@@ -19,7 +19,7 @@ public class CreateSalesService {
 
     public Sale saveSale(Sale sale){
 
-        LogUtil.logDatabaseOperation("Venda salva com sucesso: " + sale);
+        LogUtil.logDatabaseOperation("Venda salva com sucesso");
         return SaleRepository.save(sale);
     }
 }
