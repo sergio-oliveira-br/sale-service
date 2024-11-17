@@ -17,4 +17,9 @@ public interface InventoryClient {
     @PutMapping("/decrease-stock/product-id/{productId}")
     void decreaseStock(@PathVariable("productId") Long productId,
                        @RequestParam int requestedQuantity);
+
+
+    @PutMapping("/increase-sold/product-id/{productId}")
+    void increaseSold(@PathVariable Long productId,
+                      @RequestParam int requestedQuantity);
 }
