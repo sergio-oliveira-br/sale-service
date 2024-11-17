@@ -4,12 +4,16 @@ import com.alucontrol.saleservice.client.InventoryClient;
 import com.alucontrol.saleservice.entity.Sale;
 import com.alucontrol.saleservice.exceptions.InsufficientStockException;
 import com.alucontrol.saleservice.service.business.CreateSalesService;
+//import com.alucontrol.saleservice.tracking.LogUtil;
 import com.alucontrol.saleservice.tracking.LogUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
+//import org.springframework.web.server.ResponseStatusException;
 
 
 @RestController
@@ -18,6 +22,8 @@ public class CreateSalesController {
 
     private final CreateSalesService createSalesService;
     private final InventoryClient inventoryClient;
+
+    private static final Logger logger = LoggerFactory.getLogger(CreateSalesController.class);
 
 
 
@@ -35,7 +41,8 @@ public class CreateSalesController {
         // Request for inventory service: check stock availability
         Boolean hasStock = inventoryClient.checkInventory(productId, requestedQuantity);
         if (hasStock && requestedQuantity > 0) {
-            LogUtil.info("O produto esta disponivel na quantidade desejada");
+//            LogUtil.info("O produto esta disponivel na quantidade desejada");
+
 
             // Request for inventory service: decrease stock
             inventoryClient.decreaseStock(productId, requestedQuantity);
