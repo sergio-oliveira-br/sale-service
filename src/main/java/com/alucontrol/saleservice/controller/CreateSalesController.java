@@ -2,6 +2,7 @@ package com.alucontrol.saleservice.controller;
 
 import com.alucontrol.saleservice.client.InventoryClient;
 import com.alucontrol.saleservice.entity.Sale;
+import com.alucontrol.saleservice.exceptions.InsufficientStockException;
 import com.alucontrol.saleservice.service.business.CreateSalesService;
 import com.alucontrol.saleservice.tracking.LogUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +32,15 @@ public class CreateSalesController {
                                                    @RequestParam("requestedQuantity") int requestedQuantity,
                                                    @RequestBody Sale sale) {
 
+        // Request for inventory service: check stock availability
         Boolean hasStock = inventoryClient.checkInventory(productId, requestedQuantity);
         if (hasStock && requestedQuantity > 0) {
             LogUtil.info("O produto esta disponivel na quantidade desejada");
+
+            // Request for inventory service: decrease stock
+            inventoryClient.decreaseStock(productId, requestedQuantity);
+
+            // Internal service: save the details of the sale in the local database
             createSalesService.saveSale(sale);
             return ResponseEntity.status(HttpStatus.CREATED).body(sale);
         }
