@@ -40,6 +40,9 @@ public class CreateSalesController {
             // Request for inventory service: decrease stock
             inventoryClient.decreaseStock(productId, requestedQuantity);
 
+            // Request for inventory service: increase sold qty field
+            inventoryClient.increaseSold(productId, requestedQuantity);
+
             // Internal service: save the details of the sale in the local database
             createSalesService.saveSale(sale);
             return ResponseEntity.status(HttpStatus.CREATED).body(sale);
