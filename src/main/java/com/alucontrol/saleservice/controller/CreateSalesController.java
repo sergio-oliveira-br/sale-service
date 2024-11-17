@@ -1,14 +1,14 @@
 package com.alucontrol.saleservice.controller;
 
+import com.alucontrol.saleservice.client.InventoryClient;
 import com.alucontrol.saleservice.entity.Sale;
 import com.alucontrol.saleservice.service.business.CreateSalesService;
-import com.alucontrol.saleservice.service.client.InventoryClient;
 import com.alucontrol.saleservice.tracking.LogUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.View;
+import org.springframework.web.server.ResponseStatusException;
 
 
 @RestController
@@ -19,8 +19,9 @@ public class CreateSalesController {
     private final InventoryClient inventoryClient;
 
 
+
     @Autowired
-    public CreateSalesController(CreateSalesService createSalesService, InventoryClient inventoryClient, View error) {
+    public CreateSalesController(CreateSalesService createSalesService, InventoryClient inventoryClient) {
         this.createSalesService = createSalesService;
         this.inventoryClient = inventoryClient;
     }
@@ -30,10 +31,14 @@ public class CreateSalesController {
                                                    @RequestParam("requestedQuantity") int requestedQuantity,
                                                    @RequestBody Sale sale) {
 
-        createSalesService.saveSale(sale);
-
-        LogUtil.info("Iniciando o processo de venda");
-        return ResponseEntity.ok(sale);
-
+        Boolean hasStock = inventoryClient.checkInventory(productId, requestedQuantity);
+        if (hasStock && requestedQuantity > 0) {
+            LogUtil.info("O produto esta disponivel na quantidade desejada");
+            createSalesService.saveSale(sale);
+            return ResponseEntity.status(HttpStatus.CREATED).body(sale);
+        }
+        else {
+          throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
     }
 }
