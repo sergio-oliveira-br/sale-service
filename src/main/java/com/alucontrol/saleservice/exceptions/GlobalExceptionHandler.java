@@ -99,4 +99,16 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.REQUEST_TIMEOUT).body(problemDetails);
     }
 
+    // This specifically handle the insufficient stock scenario
+    @ExceptionHandler(InsufficientStockException.class)
+    public ResponseEntity<ProblemDetails> handleInsufficientStockException(InsufficientStockException ex){
+        ProblemDetails problemDetails = new ProblemDetails(
+                HttpStatus.UNPROCESSABLE_ENTITY.toString(),
+                "Insufficient Stock",
+                "A quantidade solicida não esta disponível em estoque",
+                ex.getMessage(),
+                UUID.randomUUID()
+        );
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(problemDetails);
+    }
 }
