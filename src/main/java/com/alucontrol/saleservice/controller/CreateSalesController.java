@@ -45,7 +45,7 @@ public class CreateSalesController {
             return ResponseEntity.status(HttpStatus.CREATED).body(sale);
         }
         else {
-          throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+          throw new InsufficientStockException("A venda não pode ser concluída porque não há quantidade suficiente em estoque");
         }
     }
 }
