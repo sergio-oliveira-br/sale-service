@@ -41,9 +41,9 @@ public class ReadSalesController {
     }
 
     @GetMapping("/customer-name/{id}")
-    public ResponseEntity<String> getCustomerNameById(@PathVariable("id") Long id) {
+    public ResponseEntity<String> requestCustomerNameById(@PathVariable("id") Long id) {
 
-        String customerName = customerClient.requestCustomerNameById(id);
+        String customerName = customerClient.getCustomerNameById(id);
         return ResponseEntity.ok().body(customerName);
     }
 }
