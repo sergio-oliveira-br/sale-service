@@ -1,5 +1,6 @@
 package com.alucontrol.saleservice.controller;
 
+import com.alucontrol.saleservice.client.CustomerClient;
 import com.alucontrol.saleservice.entity.Sale;
 import com.alucontrol.saleservice.service.business.ReadSalesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,14 @@ import java.util.List;
 public class ReadSalesController {
 
     private final ReadSalesService readSalesService;
+   private final CustomerClient customerClient;
 
     @Autowired
-    public ReadSalesController(ReadSalesService readSalesService) {
+    public ReadSalesController(ReadSalesService readSalesService,
+                               CustomerClient customerClient) {
+
         this.readSalesService = readSalesService;
+        this.customerClient = customerClient;
     }
 
 
@@ -33,5 +38,12 @@ public class ReadSalesController {
 
         List<Sale> sales = readSalesService.findAllSales();
         return ResponseEntity.ok(sales);
+    }
+
+    @GetMapping("/customer-name/{id}")
+    public ResponseEntity<String> getCustomerNameById(@PathVariable("id") Long id) {
+
+        String customerName = customerClient.requestCustomerNameById(id);
+        return ResponseEntity.ok().body(customerName);
     }
 }
