@@ -41,7 +41,7 @@ public class CreateSalesController {
         // Request for inventory service: check stock availability
         Boolean hasStock = inventoryClient.checkInventory(productId, requestedQuantity);
         if (hasStock && requestedQuantity > 0) {
-//            LogUtil.info("O produto esta disponivel na quantidade desejada");
+            LogUtil.info("O produto esta disponivel na quantidade desejada");
 
 
             // Request for inventory service: decrease stock
