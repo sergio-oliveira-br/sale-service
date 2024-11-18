@@ -69,16 +69,6 @@
         </dependency>
 
 
-        <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-tracing-bridge-brave</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.zipkin.reporter2</groupId>
-            <artifactId>zipkin-reporter-brave</artifactId>
-        </dependency>
-
-
         <!-- Facilitates development with automatic
         refill and other tools that improve
         productivity during local development-->
@@ -99,14 +89,6 @@
 <!--            <scope>runtime</scope>-->
 <!--            <optional>true</optional>-->
 <!--        </dependency>-->
-
-
-
-        <dependency>
-            <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-registry-datadog</artifactId>
-            <scope>runtime</scope>
-        </dependency>
 
 
         <!-- The database you are already using,
@@ -135,25 +117,13 @@
         </dependency>
 
 
-        <!-- This dependency brings WebClient
-          as part of Spring WebFlux,
-          which supports reactive communication -->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-webflux</artifactId>-->
-<!--            <version>3.3.1</version>-->
-<!--        </dependency>-->
-
-
-
-
-    <!-- The main library for creating declarative HTTP clients -->
-    <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-openfeign -->
-    <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-starter-openfeign</artifactId>
-        <version>4.1.3</version>
-    </dependency>
+        <!-- The main library for creating declarative HTTP clients -->
+        <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-openfeign -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <version>4.1.3</version>
+        </dependency>
 
 
         <!-- Spring Cloud Sleuth for distributed tracing -->
@@ -163,16 +133,32 @@
             <version>3.1.11</version>
         </dependency>
 
+
         <!-- Sleuth integration with Zipkin -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-sleuth-zipkin</artifactId>
             <version>3.1.11</version>
-
         </dependency>
 
 
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-tracing-bridge-brave</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.zipkin.reporter2</groupId>
+            <artifactId>zipkin-reporter-brave</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-datadog</artifactId>
+            <scope>runtime</scope>
+        </dependency>
     </dependencies>
+
 
     <dependencyManagement>
         <dependencies>
