@@ -8,5 +8,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface CustomerClient {
 
     @GetMapping("/{id}")
-    String requestCustomerNameById(@PathVariable("id") Long id);
+    String getCustomerNameById(@PathVariable("id") Long id);
 }
