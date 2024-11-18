@@ -1,5 +1,6 @@
 package com.alucontrol.saleservice.controller;
 
+import com.alucontrol.saleservice.client.CustomerClient;
 import com.alucontrol.saleservice.client.InventoryClient;
 import com.alucontrol.saleservice.entity.Sale;
 import com.alucontrol.saleservice.exceptions.InsufficientStockException;
@@ -23,12 +24,10 @@ public class CreateSalesController {
     private final CreateSalesService createSalesService;
     private final InventoryClient inventoryClient;
 
-    private static final Logger logger = LoggerFactory.getLogger(CreateSalesController.class);
-
-
-
     @Autowired
-    public CreateSalesController(CreateSalesService createSalesService, InventoryClient inventoryClient) {
+    public CreateSalesController(CreateSalesService createSalesService,
+                                 InventoryClient inventoryClient) {
+
         this.createSalesService = createSalesService;
         this.inventoryClient = inventoryClient;
     }
@@ -42,7 +41,6 @@ public class CreateSalesController {
         Boolean hasStock = inventoryClient.checkInventory(productId, requestedQuantity);
         if (hasStock && requestedQuantity > 0) {
             LogUtil.info("O produto esta disponivel na quantidade desejada");
-
 
             // Request for inventory service: decrease stock
             inventoryClient.decreaseStock(productId, requestedQuantity);
