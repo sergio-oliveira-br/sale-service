@@ -1,7 +1,7 @@
 package com.alucontrol.saleservice.service.business;
 
 import com.alucontrol.saleservice.entity.Sale;
-import com.alucontrol.saleservice.exceptions.ResourceNotFoundException;
+import com.alucontrol.saleservice.exceptions.SaleNotFoundException;
 import com.alucontrol.saleservice.repository.SaleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +27,7 @@ public class ReadSalesService {
         if(optionalSale.isPresent()){
             return optionalSale.get();
         }
-        throw new ResourceNotFoundException("Venda Id: " + id + " não encontrada");
+        throw new SaleNotFoundException("Venda Id: " + id + " não encontrada");
     }
 
 
