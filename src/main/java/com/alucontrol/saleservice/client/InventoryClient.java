@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface InventoryClient {
 
     @GetMapping("/api/v1/products/check-inventory/product-id/{productId}")
-    Boolean checkInventory(@PathVariable("productId") Long productId,
-                           @RequestParam("requestedQuantity") int requestedQuantity);
+    Boolean checkInventory(@PathVariable Long productId,
+                           @RequestParam int requestedQuantity);
 
 
     @PutMapping("/api/v1/products/decrease-stock/product-id/{productId}")
-    void decreaseStock(@PathVariable("productId") Long productId,
+    void decreaseStock(@PathVariable Long productId,
                        @RequestParam int requestedQuantity);
 
 
