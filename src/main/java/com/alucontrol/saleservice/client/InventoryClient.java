@@ -6,20 +6,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "inventory-service", url = "http://localhost:8080/api/v1/products")
+@FeignClient(name = "inventory-service")
 public interface InventoryClient {
 
-    @GetMapping("/check-inventory/product-id/{productId}")
+    @GetMapping("/api/v1/products/check-inventory/product-id/{productId}")
     Boolean checkInventory(@PathVariable("productId") Long productId,
                            @RequestParam("requestedQuantity") int requestedQuantity);
 
 
-    @PutMapping("/decrease-stock/product-id/{productId}")
+    @PutMapping("/api/v1/products/decrease-stock/product-id/{productId}")
     void decreaseStock(@PathVariable("productId") Long productId,
                        @RequestParam int requestedQuantity);
 
 
-    @PutMapping("/increase-sold/product-id/{productId}")
+    @PutMapping("/api/v1/products/increase-sold/product-id/{productId}")
     void increaseSold(@PathVariable Long productId,
                       @RequestParam int requestedQuantity);
 }
