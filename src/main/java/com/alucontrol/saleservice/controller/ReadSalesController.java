@@ -46,4 +46,11 @@ public class ReadSalesController {
         String customerName = customerClient.getCustomerNameById(id);
         return ResponseEntity.ok().body(customerName);
     }
+
+    @GetMapping("/request")
+    public ResponseEntity<List<CustomerDTO>> requestAllCustomersName() {
+
+        List<CustomerDTO> customersFoud = customerClient.getCustomerName();
+        return ResponseEntity.ok().body(customersFoud);
+    }
 }
