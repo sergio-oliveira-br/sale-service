@@ -19,7 +19,7 @@ public class Sale {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "O valor da venda deve ser informado")
+    @NotNull(message = "O valor 'amount' da venda deve ser informado")
     private BigDecimal amount;
 
     @CreationTimestamp
