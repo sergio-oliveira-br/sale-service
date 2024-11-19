@@ -157,6 +157,17 @@
             <artifactId>micrometer-registry-datadog</artifactId>
             <scope>runtime</scope>
         </dependency>
+
+
+        <!-- Any service that registers with the Eureka Server
+            or searches for information in the registry
+            (for example, via Feign) needs the customer’s dependency -->
+        <!-- Dependência para registrar no Eureka -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+
     </dependencies>
 
 
