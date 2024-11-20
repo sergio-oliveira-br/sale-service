@@ -2,7 +2,9 @@ package com.alucontrol.saleservice.controller;
 
 import com.alucontrol.saleservice.client.CustomerClient;
 import com.alucontrol.saleservice.entity.Sale;
+import com.alucontrol.saleservice.model.CustomerDTO;
 import com.alucontrol.saleservice.service.business.ReadSalesService;
+import com.alucontrol.saleservice.service.external.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +20,7 @@ public class ReadSalesController {
 
     @Autowired
     public ReadSalesController(ReadSalesService readSalesService,
-                               CustomerClient customerClient) {
+                               CustomerClient customerClient, CustomerService customerService) {
 
         this.readSalesService = readSalesService;
         this.customerClient = customerClient;
@@ -40,17 +42,4 @@ public class ReadSalesController {
         return ResponseEntity.ok(sales);
     }
 
-    @GetMapping("/customer-name/{id}")
-    public ResponseEntity<String> requestCustomerNameById(@PathVariable("id") Long id) {
-
-        String customerName = customerClient.getCustomerNameById(id);
-        return ResponseEntity.ok().body(customerName);
-    }
-
-    @GetMapping("/request")
-    public ResponseEntity<List<CustomerDTO>> requestAllCustomersName() {
-
-        List<CustomerDTO> customersFoud = customerClient.getCustomerName();
-        return ResponseEntity.ok().body(customersFoud);
-    }
 }
