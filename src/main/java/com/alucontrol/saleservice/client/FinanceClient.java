@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 
-@FeignClient(name = "finance-service", url = "http://localhost:8083")
+@FeignClient("finance-service")
 public interface FinanceClient {
 
     @PostMapping("/api/v1/finance/income")
