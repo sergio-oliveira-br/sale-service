@@ -8,6 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.util.Arrays;
 import java.util.UUID;
 import java.util.concurrent.TimeoutException;
 
@@ -59,6 +60,8 @@ public class GlobalExceptionHandler {
     //Handling generic exceptions
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ProblemDetails> handleException(Exception ex){
+
+        String stackTrace = Arrays.toString(ex.getStackTrace());
 
         ProblemDetails problemDetails = new ProblemDetails(
                 HttpStatus.INTERNAL_SERVER_ERROR.toString(),
