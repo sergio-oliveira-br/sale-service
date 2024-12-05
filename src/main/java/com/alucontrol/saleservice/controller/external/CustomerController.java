@@ -18,12 +18,10 @@ import java.util.List;
 public class CustomerController {
 
     private final CustomerService customerService;
-    private Tracer tracer;
 
     @Autowired
-    public CustomerController(CustomerService customerService, Tracer tracer) {
+    public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
-        this.tracer = tracer;
     }
 
     @GetMapping("/customer-name-by-id/{id}")
@@ -34,13 +32,6 @@ public class CustomerController {
 
     @GetMapping("/all-customer-data")
     public ResponseEntity<List<CustomerDTO>> requestAllCustomerData() {
-
-        try {
-            tracer.nextSpan().name("requestAllCustomerData");
-            return ResponseEntity.ok(customerService.getAllCustomersName());
-        }
-        catch(Exception e){
-          throw new RuntimeException(e);
-        }
+        return ResponseEntity.ok(customerService.getAllCustomersName());
     }
 }
