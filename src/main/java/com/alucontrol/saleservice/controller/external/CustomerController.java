@@ -25,7 +25,6 @@ public class CustomerController {
 
     @GetMapping("/customer-name-by-id/{id}")
     public ResponseEntity<String> requestCustomerNameById(@PathVariable Long id) {
-        LogUtil.logServiceRequest("Solicitando o Servico: 'Request Customer Name by Id:'" + id);
         return ResponseEntity.ok(customerService.getCustomerNameById(id));
     }
 
