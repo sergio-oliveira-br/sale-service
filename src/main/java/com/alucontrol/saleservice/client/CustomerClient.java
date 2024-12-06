@@ -15,9 +15,8 @@ public interface CustomerClient {
     @GetMapping("/api/v1/customers/{id}")
     String findCustomerNameById(@PathVariable Long id);
 
-
-    @GetMapping()
+    @GetMapping("/api/v1/customers")
     List<CustomerDTO> findCustomerName();
 
-    }
+}
 
