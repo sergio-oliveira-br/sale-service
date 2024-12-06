@@ -22,7 +22,6 @@ public class CustomerService {
     // This service is responsible to get a unique customer name by id
     //@CircuitBreaker(name = "customerServiceCircuitBreaker", fallbackMethod = "fallbackGetCustomerNameById")
     public String getCustomerNameById(Long id) {
-        LogUtil.info("Calling Customer Cliente to get customer name by Id: " + id);
         return customerClient.findCustomerNameById(id);
     }
 
