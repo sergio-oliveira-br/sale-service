@@ -3,7 +3,6 @@ package com.alucontrol.saleservice.controller.external;
 import com.alucontrol.saleservice.model.CustomerDTO;
 import com.alucontrol.saleservice.service.external.CustomerService;
 import com.alucontrol.saleservice.tracking.LogUtil;
-import io.micrometer.tracing.Tracer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
