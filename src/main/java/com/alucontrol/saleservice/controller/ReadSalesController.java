@@ -16,14 +16,11 @@ import java.util.List;
 public class ReadSalesController {
 
     private final ReadSalesService readSalesService;
-   private final CustomerClient customerClient;
 
     @Autowired
-    public ReadSalesController(ReadSalesService readSalesService,
-                               CustomerClient customerClient, CustomerService customerService) {
+    public ReadSalesController(ReadSalesService readSalesService, CustomerService customerService) {
 
         this.readSalesService = readSalesService;
-        this.customerClient = customerClient;
     }
 
 
