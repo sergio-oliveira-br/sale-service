@@ -33,7 +33,7 @@ public class CreateSalesController {
         this.financeClient = financeClient;
     }
 
-    @PostMapping("/product/{productId}")
+    @PostMapping("/{productId}")
     public ResponseEntity<Sale> createSale(@PathVariable("productId") Long productId,
                                                    @RequestParam("requestedQuantity") int requestedQuantity,
                                                    @RequestParam BigDecimal amount,
