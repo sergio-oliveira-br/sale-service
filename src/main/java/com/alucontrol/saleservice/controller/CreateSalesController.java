@@ -21,52 +21,18 @@ import java.math.BigDecimal;
 public class CreateSalesController {
 
     private final CreateSalesService createSalesService;
-    private final InventoryClient inventoryClient;
-    private final FinanceClient financeClient;
-    private final CustomerService customerService;
+
 
     @Autowired
-    public CreateSalesController(CreateSalesService createSalesService,
-                                 InventoryClient inventoryClient,
-                                 FinanceClient financeClient,
-                                 CustomerService customerService) {
+    public CreateSalesController(CreateSalesService createSalesService) {
 
         this.createSalesService = createSalesService;
-        this.inventoryClient = inventoryClient;
-        this.financeClient = financeClient;
-        this.customerService = customerService;
     }
 
     @PostMapping("/{productId}")
-    public ResponseEntity<Sale> createSale(@PathVariable("productId") Long productId,
-                                                   @RequestParam("requestedQuantity") int requestedQuantity,
-                                                   @RequestParam BigDecimal amount,
-                                                   @RequestBody Sale sale) {
+    public ResponseEntity<Sale> createSale(@PathVariable Long productId,
+                                           @RequestBody Sale sale) {
 
-        // Request for inventory service: check stock availability
-        Boolean hasStock = inventoryClient.checkInventory(productId, requestedQuantity);
-        if (hasStock && requestedQuantity > 0) {
-            LogUtil.info("O produto esta disponivel na quantidade desejada");
-
-            // Request for inventory service: decrease stock
-            inventoryClient.decreaseStock(productId, requestedQuantity);
-
-            // Request for inventory service: increase sold qty field
-            inventoryClient.increaseSold(productId, requestedQuantity);
-
-            // Request for finance service: send the amout to finance service
-            FinanceDTO financeDTO = new FinanceDTO(amount); // Criação do DTO
-            financeClient.addOfIncome(financeDTO); // Enviar o DTO
-
-            // Reqyest for customer service: send the amout to increase the customer total spent
-            customerService.updateCustomerTotalSpent(sale.getCustomerId(), amount);
-
-            // Internal service: save the details of the sale in the local database
-            createSalesService.saveSale(sale);
-            return ResponseEntity.status(HttpStatus.CREATED).body(sale);
-        }
-        else {
-          throw new InsufficientStockException("A venda não pode ser concluída porque não há quantidade suficiente em estoque");
-        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(createSalesService.saveSale(sale));
     }
 }
