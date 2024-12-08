@@ -25,4 +25,6 @@ public class Sale {
     @CreationTimestamp
     private LocalDateTime createAt;
 
+    private Long customerId;
+    private String customerName;
 }
