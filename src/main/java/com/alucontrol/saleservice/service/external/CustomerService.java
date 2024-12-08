@@ -7,6 +7,7 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -42,4 +43,8 @@ public class CustomerService {
 //        LogUtil.error("Error occurred while calling CustomerClient: " + t.getMessage());
 //        return List.of(); // Retorna uma lista vazia em caso de falha
 //    }
+
+    public CustomerDTO updateCustomerTotalSpent(Long id, BigDecimal amountSpent) {
+        return customerClient.updateCustomer(id, amountSpent);
+    }
 }
