@@ -22,9 +22,12 @@ public class Sale {
     @NotNull(message = "O valor 'amount' da venda deve ser informado")
     private BigDecimal amount;
 
+    private int quantitySold;
+    private Long customerId;
+    private String customerName;
+    private Long productId;
+
     @CreationTimestamp
     private LocalDateTime createAt;
 
-    private Long customerId;
-    private String customerName;
 }
