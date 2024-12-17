@@ -27,7 +27,7 @@ public class CustomerService {
     }
 
     // Fallback method para o getCustomerNameById
-    public String fallbackGetCustomerNameById(Long id) {
+    public String fallbackGetCustomerNameById(Long id, Throwable throwable) {
         LogUtil.error("Ocorreu um erro ao chamar o CustomerClient");
         return "Retornando uma mensagem genérica informando a existencia da falha no getCustomerNameById()";
     }
